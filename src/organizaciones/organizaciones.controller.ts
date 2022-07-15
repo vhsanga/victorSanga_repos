@@ -18,17 +18,17 @@ export class OrganizacionesController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  findOne(@Param('id') id: number) {
     return this.organizacionesService.findOne(id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateOrganizacioneDto: UpdateOrganizacioneDto) {
+  update(@Param('id') id: number, @Body() updateOrganizacioneDto: UpdateOrganizacioneDto) {
     return this.organizacionesService.update(id, updateOrganizacioneDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
+  remove(@Param('id') id: number) {
     return this.organizacionesService.remove(id);
   }
 }

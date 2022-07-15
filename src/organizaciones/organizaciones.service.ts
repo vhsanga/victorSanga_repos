@@ -44,7 +44,7 @@ export class OrganizacionesService {
     return { statusCode: HttpStatus.OK, message: 'OK', data: organizaciones };
   }
 
-  async findOne(id: string) {
+  async findOne(id: number) {
     let organizacion = null;
     try {
       organizacion = await this.organizacionModel.findByPk<Organizacion>(id);
@@ -57,7 +57,7 @@ export class OrganizacionesService {
     return { statusCode: HttpStatus.OK, message: 'OK', data: organizacion };
   }
 
-  async update(id: string, updateOrganizacioneDto: UpdateOrganizacioneDto) {
+  async update(id: number, updateOrganizacioneDto: UpdateOrganizacioneDto) {
     const updates = Object.keys(updateOrganizacioneDto);
     const allowedUpdates = ['name', 'status']; //fields of Organization entity
     const isValidOperation = updates.every((update) =>
@@ -93,7 +93,7 @@ export class OrganizacionesService {
     };
   }
 
-  async remove(id: string) {
+  async remove(id: number) {
     let organizacion = null;
     try {
       organizacion = await this.organizacionModel.findByPk<Organizacion>(id);
