@@ -1,15 +1,21 @@
-import { Column, Model, Table, PrimaryKey, AutoIncrement, DataType } from 'sequelize-typescript';
+import { Column, Model, Table, PrimaryKey, AutoIncrement, DataType, HasMany } from 'sequelize-typescript';
+import { Tribu } from 'src/tribus/entities/tribus.entity';
 
-@Table
+@Table({
+  tableName: 'organizacion',
+})
 export class Organizacion extends Model {
   @PrimaryKey
   @AutoIncrement
   @Column(DataType.INTEGER)
-  id: number;
+  id_organizacion: number;
 
   @Column
   name: string;
 
   @Column
   status: number;
+
+  @HasMany(() => Tribu)
+  posts: Tribu[];
 }

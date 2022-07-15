@@ -1,0 +1,10 @@
+POST http://localhost:3000/tribus HTTP/1.1
+content-type: application/json
+
+{
+    "name":"Grupo Alcones",
+    "status":1,
+    "id_organizacion":"779408643682697217"
+}
+
+
