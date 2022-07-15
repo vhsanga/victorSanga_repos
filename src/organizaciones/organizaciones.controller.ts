@@ -9,7 +9,7 @@ export class OrganizacionesController {
 
   @Post()
   create(@Body() createOrganizacioneDto: CreateOrganizacioneDto) {
-    return this.organizacionesService.create(createOrganizacioneDto);
+    return this.organizacionesService.create(createOrganizacioneDto, {});
   }
 
   @Get()
@@ -19,16 +19,16 @@ export class OrganizacionesController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.organizacionesService.findOne(+id);
+    return this.organizacionesService.findOne(id);
   }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateOrganizacioneDto: UpdateOrganizacioneDto) {
-    return this.organizacionesService.update(+id, updateOrganizacioneDto);
+    return this.organizacionesService.update(id, updateOrganizacioneDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.organizacionesService.remove(+id);
+    return this.organizacionesService.remove(id);
   }
 }

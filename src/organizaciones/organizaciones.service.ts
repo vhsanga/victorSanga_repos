@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { CreateOrganizacioneDto } from './dto/create-organizacione.dto';
 import { UpdateOrganizacioneDto } from './dto/update-organizacione.dto';
 import { Organizacion } from './entities/organizacion.entity';
@@ -10,23 +10,50 @@ export class OrganizacionesService {
     private organizacionModel: typeof Organizacion,
   ) {}
 
-  create(createOrganizacioneDto: CreateOrganizacioneDto) {
-    return 'This action adds a new organizacione';
+  async create(createOrganizacioneDto: CreateOrganizacioneDto, createOption) {
+    return this.organizacionModel.create({
+      createOption,
+      ...createOrganizacioneDto,
+    });
   }
 
-  findAll() {
+  async findAll() {
     return this.organizacionModel.findAll();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} organizacione`;
+  async findOne(id: string) {
+    const organizacion = await this.organizacionModel.findByPk<Organizacion>(
+      id,
+    );
+    if (!organizacion) {
+      throw new HttpException('Organization no found.', HttpStatus.NOT_FOUND);
+    }
+    return organizacion;
   }
 
-  update(id: number, updateOrganizacioneDto: UpdateOrganizacioneDto) {
-    return `This action updates a #${id} organizacione`;
+  async update(id: string, updateOrganizacioneDto: UpdateOrganizacioneDto) {
+    const organizacion = await this.organizacionModel.findByPk<Organizacion>(
+      id,
+    );
+    if (!organizacion) {
+      throw new HttpException('Organization no found.', HttpStatus.NOT_FOUND);
+    }
+    const [numberOfAffectedRows, [updatedPost]] =
+      await this.organizacionModel.update(
+        { ...updateOrganizacioneDto },
+        { where: { id }, returning: true },
+      );
+
+    return { numberOfAffectedRows, updatedPost };
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} organizacione`;
+  async remove(id: string) {
+    const organizacion = await this.organizacionModel.findByPk<Organizacion>(
+      id,
+    );
+    if (!organizacion) {
+      throw new HttpException('Organization no found.', HttpStatus.NOT_FOUND);
+    }
+    return await this.organizacionModel.destroy({ where: { id } });
   }
 }
