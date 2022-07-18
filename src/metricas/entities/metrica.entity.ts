@@ -1,16 +1,16 @@
-import { AutoIncrement, BelongsTo, Column, DataType, ForeignKey, Model, PrimaryKey, Table } from 'sequelize-typescript';
+import { BelongsTo, Column, DataType, ForeignKey, Model, PrimaryKey, Table } from 'sequelize-typescript';
 import { Repositories } from 'src/repositories/entities/repositories.entity';
 
 @Table({
-    tableName: 'metrica',
-  })
+  tableName: 'metrica',
+})
 export class Metrica extends Model {
   @PrimaryKey
   @ForeignKey(() => Repositories)
   @Column({
     type: DataType.INTEGER,
     allowNull: false,
-    field: 'id_repositorio',
+    field: 'id_metrica',
   })
   id_metrica;
 

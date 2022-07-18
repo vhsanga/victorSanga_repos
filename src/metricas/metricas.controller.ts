@@ -9,7 +9,7 @@ export class MetricasController {
 
   @Post()
   create(@Body() createMetricaDto: CreateMetricaDto) {
-    return this.metricasService.create(createMetricaDto);
+    return this.metricasService.create(createMetricaDto, {});
   }
 
   @Get()

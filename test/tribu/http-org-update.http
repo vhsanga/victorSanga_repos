@@ -1,9 +1,9 @@
-PATCH http://localhost:3000/organizaciones/779354580109066242 HTTP/1.1
+PATCH http://localhost:3000/organizaciones/780193295963193346 HTTP/1.1
 content-type: application/json
 
 {
     "name":"MITSUBISHI INC",
-    "status":1
+    "status":2
 }
 
 

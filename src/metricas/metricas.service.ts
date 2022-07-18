@@ -1,15 +1,51 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { CreateMetricaDto } from './dto/create-metrica.dto';
 import { UpdateMetricaDto } from './dto/update-metrica.dto';
+import { Metrica } from './entities/metrica.entity';
 
 @Injectable()
 export class MetricasService {
-  create(createMetricaDto: CreateMetricaDto) {
-    return 'This action adds a new metrica';
+  constructor(
+    @Inject('MetricaRepository')
+    private metricaModel: typeof Metrica,
+  ) {}
+
+  async create(createTribuDto: CreateMetricaDto, createOption) {
+    let organizacion = null;
+    try {
+      organizacion = await this.metricaModel.create({
+        createOption,
+        ...createTribuDto,
+      });
+    } catch (error) {
+      console.log(error);
+      throw new HttpException(
+        'Metrica could not be created. ' + error.toString(),
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+
+    return {
+      statusCode: HttpStatus.OK,
+      message: 'OK - created successfully',
+      data: organizacion,
+    };
   }
 
-  findAll() {
-    return `This action returns all metricas`;
+  async findAll() {
+    let metricas = null;
+    try {
+      metricas = await this.metricaModel.findAll();
+    } catch (error) {
+      throw new HttpException(
+        error.toString(),
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+    if (!metricas) {
+      throw new HttpException('Organizations is empty.', HttpStatus.NOT_FOUND);
+    }
+    return { statusCode: HttpStatus.OK, message: 'OK', data: metricas };
   }
 
   findOne(id: number) {

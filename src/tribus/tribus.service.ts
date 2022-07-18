@@ -11,9 +11,9 @@ export class TribusService {
   ) {}
 
   async create(createTribuDto: CreateTribusDto, createOption) {
-    let organizacion = null;
+    let tribu = null;
     try {
-      organizacion = await this.tribuModel.create({
+      tribu = await this.tribuModel.create({
         createOption,
         ...createTribuDto,
       });
@@ -27,12 +27,24 @@ export class TribusService {
     return {
       statusCode: HttpStatus.OK,
       message: 'OK - created successfully',
-      data: organizacion,
+      data: tribu,
     };
   }
 
-  findAll() {
-    return this.tribuModel.findAll();
+  async findAll() {
+    let tribus = null;
+    try {
+      tribus = await this.tribuModel.findAll();
+    } catch (error) {
+      throw new HttpException(
+        error.toString(),
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+    if (!tribus) {
+      throw new HttpException('Organizations is empty.', HttpStatus.NOT_FOUND);
+    }
+    return { statusCode: HttpStatus.OK, message: 'OK', data: tribus };
   }
 
   findOne(id: number) {

@@ -19,7 +19,7 @@ export class OrganizacionesService {
       });
     } catch (error) {
       throw new HttpException(
-        'Organization could not be created.',
+        'Organization could not be created.' + error.toString(),
         HttpStatus.INTERNAL_SERVER_ERROR,
       );
     }
@@ -36,7 +36,10 @@ export class OrganizacionesService {
     try {
       organizaciones = await this.organizacionModel.findAll();
     } catch (error) {
-      console.log(error);
+      throw new HttpException(
+        error.toString(),
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
     }
     if (!organizaciones) {
       throw new HttpException('Organizations is empty.', HttpStatus.NOT_FOUND);
@@ -57,7 +60,10 @@ export class OrganizacionesService {
     return { statusCode: HttpStatus.OK, message: 'OK', data: organizacion };
   }
 
-  async update(id: number, updateOrganizacioneDto: UpdateOrganizacioneDto) {
+  async update(
+    id_organizacion: number,
+    updateOrganizacioneDto: UpdateOrganizacioneDto,
+  ) {
     const updates = Object.keys(updateOrganizacioneDto);
     const allowedUpdates = ['name', 'status']; //fields of Organization entity
     const isValidOperation = updates.every((update) =>
@@ -72,25 +78,34 @@ export class OrganizacionesService {
     }
     let organizacion = null;
     try {
-      organizacion = await this.organizacionModel.findByPk<Organizacion>(id);
+      organizacion = await this.organizacionModel.findByPk<Organizacion>(
+        id_organizacion,
+      );
     } catch (error) {
       console.log(error);
     }
     if (!organizacion) {
       throw new HttpException('Organization no found.', HttpStatus.NOT_FOUND);
     }
-    const [numberOfAffectedRows, [updatedPost]] =
-      await this.organizacionModel.update(
-        { ...updateOrganizacioneDto },
-        { where: { id }, returning: true },
-      );
 
-    return {
-      numberOfAffectedRows,
-      statusCode: HttpStatus.OK,
-      message: 'OK',
-      data: updatedPost,
-    };
+    try {
+      const [numberOfAffectedRows, [updatedPost]] =
+        await this.organizacionModel.update(
+          { ...updateOrganizacioneDto },
+          { where: { id_organizacion }, returning: true },
+        );
+      return {
+        numberOfAffectedRows,
+        statusCode: HttpStatus.OK,
+        message: 'OK',
+        data: updatedPost,
+      };
+    } catch (error) {
+      throw new HttpException(
+        'Organization could not be update.' + error.toString(),
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
   }
 
   async remove(id: number) {
@@ -107,6 +122,10 @@ export class OrganizacionesService {
       await this.organizacionModel.destroy({ where: { id } });
     } catch (error) {
       console.log(error);
+      throw new HttpException(
+        'Organization could not be removed.' + error.toString(),
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
     }
     return {
       statusCode: HttpStatus.OK,
