@@ -2,9 +2,9 @@ POST http://localhost:3000/repositories HTTP/1.1
 content-type: application/json
 
 {
-    "name":"Projecto Umbrella",
-    "state":"A",
-    "status":"A",
+    "name":"Projecto Casa Grande",
+    "state":"D",
+    "status":"I",
     "id_tribu":"780193365365227522"
 }
 

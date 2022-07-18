@@ -53,11 +53,15 @@ export class OrganizacionesService {
       organizacion = await this.organizacionModel.findByPk<Organizacion>(id);
     } catch (error) {
       console.log(error);
+      throw new HttpException(
+        error.toString(),
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
     }
     if (!organizacion) {
       throw new HttpException('Organization no found.', HttpStatus.NOT_FOUND);
     }
-    return { statusCode: HttpStatus.OK, message: 'OK', data: organizacion };
+    return organizacion;
   }
 
   async update(

@@ -2,12 +2,12 @@ POST http://localhost:3000/metricas HTTP/1.1
 content-type: application/json
 
 {
-    "id_metricaxx": "780193897845030914",
-    "coverage":9.5,
-    "bugs":12,
-    "vulnerabilities":9,
-    "hotspot":16,
-    "code_smells":6
+    "id_metrica": "780208983319937026",
+    "coverage":5.5,
+    "bugs":35,
+    "vulnerabilities":25,
+    "hotspot":4,
+    "code_smells":23
 }
 
 

@@ -48,12 +48,57 @@ export class MetricasService {
     return { statusCode: HttpStatus.OK, message: 'OK', data: metricas };
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} metrica`;
+  async update(id_metrica: number, _updateMetricaDto: UpdateMetricaDto) {
+    const updates = Object.keys(_updateMetricaDto);
+    const allowedUpdates = [
+      'coverage',
+      'bugs',
+      'vulnerabilities',
+      'hotspot',
+      'code_smells',
+    ];
+    const isValidOperation = updates.every((update) =>
+      allowedUpdates.includes(update),
+    );
+
+    if (!isValidOperation) {
+      throw new HttpException(
+        'Invalid fields for update.',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+    let metrica = null;
+    try {
+      metrica = await this.metricaModel.findByPk<Metrica>(id_metrica);
+    } catch (error) {
+      console.log(error);
+    }
+    if (!metrica) {
+      throw new HttpException('Metrica no found.', HttpStatus.NOT_FOUND);
+    }
+
+    try {
+      const [numberOfAffectedRows, [updatedPost]] =
+        await this.metricaModel.update(
+          { ..._updateMetricaDto },
+          { where: { id_metrica }, returning: true },
+        );
+      return {
+        numberOfAffectedRows,
+        statusCode: HttpStatus.OK,
+        message: 'OK',
+        data: updatedPost,
+      };
+    } catch (error) {
+      throw new HttpException(
+        'Metrica could not be update.' + error.toString(),
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
   }
 
-  update(id: number, updateMetricaDto: UpdateMetricaDto) {
-    return `This action updates a #${id} metrica`;
+  findOne(id: number) {
+    return `This action returns a #${id} metrica`;
   }
 
   remove(id: number) {

@@ -1,4 +1,14 @@
-import { AutoIncrement, BelongsTo, Column, DataType, ForeignKey, HasMany,  HasOne,  Model, PrimaryKey, Table } from 'sequelize-typescript';
+import {
+  AutoIncrement,
+  BelongsTo,
+  Column,
+  DataType,
+  ForeignKey,
+  HasOne,
+  Model,
+  PrimaryKey,
+  Table,
+} from 'sequelize-typescript';
 import { Metrica } from 'src/metricas/entities/metrica.entity';
 import { Tribu } from 'src/tribus/entities/tribus.entity';
 
@@ -44,5 +54,5 @@ export class Repositories extends Model {
   tribu: Tribu;
 
   @HasOne(() => Metrica)
-  tribus: Metrica;
+  metrica: Metrica;
 }

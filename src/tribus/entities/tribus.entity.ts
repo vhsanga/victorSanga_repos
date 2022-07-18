@@ -1,4 +1,14 @@
-import { Column, Model, Table, PrimaryKey, AutoIncrement, DataType, BelongsTo, ForeignKey, HasMany } from 'sequelize-typescript';
+import {
+  Column,
+  Model,
+  Table,
+  PrimaryKey,
+  AutoIncrement,
+  DataType,
+  BelongsTo,
+  ForeignKey,
+  HasMany,
+} from 'sequelize-typescript';
 import { Organizacion } from 'src/organizaciones/entities/organizacion.entity';
 import { Repositories } from 'src/repositories/entities/repositories.entity';
 

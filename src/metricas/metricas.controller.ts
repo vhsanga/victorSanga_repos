@@ -1,4 +1,12 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { MetricasService } from './metricas.service';
 import { CreateMetricaDto } from './dto/create-metrica.dto';
 import { UpdateMetricaDto } from './dto/update-metrica.dto';
@@ -18,13 +26,16 @@ export class MetricasController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.metricasService.findOne(+id);
+  findOne(@Param('id') id: number) {
+    return this.metricasService.findOne(id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateMetricaDto: UpdateMetricaDto) {
-    return this.metricasService.update(+id, updateMetricaDto);
+  update(
+    @Param('id') id: number,
+    @Body() updateOrganizacioneDto: UpdateMetricaDto,
+  ) {
+    return this.metricasService.update(id, updateOrganizacioneDto);
   }
 
   @Delete(':id')

@@ -47,8 +47,17 @@ export class TribusService {
     return { statusCode: HttpStatus.OK, message: 'OK', data: tribus };
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} tribus`;
+  async findOne(id: number) {
+    let data = null;
+    try {
+      data = await this.tribuModel.findByPk<Tribu>(id);
+    } catch (error) {
+      throw new HttpException(
+        error.toString(),
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+    return data;
   }
 
   update(id: number, updateTribusDto: UpdateTribusDto) {
