@@ -5,6 +5,7 @@ import { RepositoriesModule } from './repositories/repositories.module';
 import { OrganizacionesModule } from './organizaciones/organizaciones.module';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { TribusModule } from './tribus/tribus.module';
+import { MetricasModule } from './metricas/metricas.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { TribusModule } from './tribus/tribus.module';
       synchronize: true,
     }),
     TribusModule,
+    MetricasModule,
   ],
   controllers: [AppController],
   providers: [AppService],

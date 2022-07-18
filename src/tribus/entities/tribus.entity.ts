@@ -1,5 +1,6 @@
-import { Column, Model, Table, PrimaryKey, AutoIncrement, DataType, BelongsTo, ForeignKey } from 'sequelize-typescript';
+import { Column, Model, Table, PrimaryKey, AutoIncrement, DataType, BelongsTo, ForeignKey, HasMany } from 'sequelize-typescript';
 import { Organizacion } from 'src/organizaciones/entities/organizacion.entity';
+import { Repositories } from 'src/repositories/entities/repositories.entity';
 
 @Table({
   tableName: 'tribu',
@@ -7,22 +8,35 @@ import { Organizacion } from 'src/organizaciones/entities/organizacion.entity';
 export class Tribu extends Model {
   @PrimaryKey
   @AutoIncrement
-  @Column(DataType.INTEGER)
-  id: number;
+  @Column({
+    type: DataType.INTEGER,
+    allowNull: false,
+  })
+  id_tribu;
 
   @ForeignKey(() => Organizacion)
   @Column({
     type: DataType.INTEGER,
     field: 'id_organizacion',
+    allowNull: false,
   })
-  id_organizacion: number;
+  id_organizacion;
 
-  @Column
-  name: string;
+  @Column({
+    type: DataType.STRING(50),
+    allowNull: false,
+  })
+  name;
 
-  @Column
+  @Column({
+    type: DataType.INTEGER,
+    allowNull: false,
+  })
   status: number;
 
   @BelongsTo(() => Organizacion)
   organizacion: Organizacion;
+
+  @HasMany(() => Repositories)
+  repositorios: Repositories[];
 }

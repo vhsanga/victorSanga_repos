@@ -7,15 +7,24 @@ import { Tribu } from 'src/tribus/entities/tribus.entity';
 export class Organizacion extends Model {
   @PrimaryKey
   @AutoIncrement
-  @Column(DataType.INTEGER)
-  id_organizacion: number;
+  @Column({
+    type: DataType.INTEGER,
+    allowNull: false,
+  })
+  id_organizacion;
 
-  @Column
-  name: string;
+  @Column({
+    type: DataType.STRING(50),
+    allowNull: false,
+  })
+  name;
 
-  @Column
+  @Column({
+    type: DataType.INTEGER,
+    allowNull: false,
+  })
   status: number;
 
   @HasMany(() => Tribu)
-  posts: Tribu[];
+  tribus: Tribu[];
 }
